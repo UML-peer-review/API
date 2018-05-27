@@ -5,5 +5,30 @@
   "paginate": {
     "default": 10,
     "max": 50
+  },
+  "mongodb": "mongodb://localhost:27017/api",
+  "authentication": {
+    "secret": "99647791b84cd7d57dd2b62cdbebc6a6c186d43197a9110122a8454d059fa3dae4baa49e49d9068e5209351bcb30eb833a13b53f336ec69250b62fe4bf617b7188b2a2883a1fd30c4dbb6c9689802147812eb0c515e77fbc1caffe4bd62762d1bde490cabbc7a981bbe9749a2dc847630e3bb4a1730cc57e13d9368f03180d7e1147ea1d955b4d41be376ba3c8f73f2214c4cd375b557556ef9da357e00efaae251bb445aaef53942989d7aaeb9b1fab68cccd3ac77990bd8b09283e007885ef1a2974f2b728a9d4419ee4b9fce73211045a23b12eba54cde147d2437d351c02791a046e0c1d084035eb45e33f023b23bb7b9cc96b088e2fec523d000bf29c99",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "PeerReview",
+      "subject": "PeerReview",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
   }
 }
