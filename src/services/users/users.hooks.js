@@ -9,7 +9,22 @@ module.exports = {
     ],
     get: [],
     create: [
-      local.hooks.hashPassword({ passwordField: 'password' })
+      local.hooks.hashPassword({ passwordField: 'password' }),
+      async context => {
+        const {code} = context.params.query;
+
+        if (code) {
+          const groups = await context.app.service('groups').find({query: {code}});
+
+          if (!groups.length) {
+            throw Error('No groups found for provided code');
+          }
+
+          context.data.role = 'student';
+        } else {
+          context.data.role = 'teacher';
+        }
+      }
     ],
     update: [],
     patch: [],
@@ -20,7 +35,15 @@ module.exports = {
     all: [local.hooks.protect('password')],
     find: [],
     get: [],
-    create: [],
+    create: [
+      async context => {
+        const {code} = context.params.query;
+
+        if (code) {
+          context.app.service('memberships').create({userId: context.result._id}, {query: {code}});
+        }
+      }
+    ],
     update: [],
     patch: [],
     remove: []
